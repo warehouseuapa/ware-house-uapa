@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<navigationModel
+  ns = "http://schemas.android.com?import=com.android.tools.idea.editors.navigation.model.*">
+  <locations  
+    class = "java.util.ArrayList">
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "warehousemobile.com.Main2Activity"/>
+      <point      
+        x = "2288"      
+        y = "1799"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "warehousemobile.com.Main22Activity"/>
+      <point      
+        x = "472"      
+        y = "1640"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "warehousemobile.com.MainActivity"/>
+      <point      
+        x = "1628"      
+        y = "0"/>
+    </statePointEntry>
+    <statePointEntry>
+      <state      
+        class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
+        className = "warehousemobile.com.LoginActivity"/>
+      <point      
+        x = "492"      
+        y = "92"/>
+    </statePointEntry>
+  </locations>
+</navigationModel>

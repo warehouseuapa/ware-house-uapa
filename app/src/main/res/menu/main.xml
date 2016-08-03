@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/action_preguntas"
+        android:title="Servicios"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/action_servicios"
+        android:title="Preguntas"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+    <item android:id="@+id/action_settings" android:title="Ajustes"
+        android:orderInCategory="100" app:showAsAction="never" />
+    <item android:id="@+id/action_ayuda"
+        android:title="Ayuda"
+        android:orderInCategory="100"
+        android:showAsAction="never" />
+</menu>
