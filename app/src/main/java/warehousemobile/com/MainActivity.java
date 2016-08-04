@@ -1,5 +1,6 @@
 package warehousemobile.com;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -14,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -82,23 +84,38 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camara) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-
-        } else if (id == R.id.nav_send) {
-
+        if (id == R.id.nuevo_item) {
+            showMessage("nuevo item");
+        } else if (id == R.id.localizaciones) {
+            showMessage("localizaciones");
+        } else if (id == R.id.inventario) {
+            showMessage("inventario");
+        } else if (id == R.id.scanAdd) {
+            showMessage("scanadd");
+            IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+            integrator.initiateScan();
+        } else if (id == R.id.buscar) {
+            showMessage("buscar");
+        } else if (id == R.id.salir) {
+            showMessage("salir");
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void showMessage(String text) {
+        Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanResult != null) {
+            Log.d("myTag", scanResult.getContents());
+            showMessage(scanResult.getContents());
+        }else {
+            showMessage(scanResult.getErrorCorrectionLevel());
+        }
     }
 }

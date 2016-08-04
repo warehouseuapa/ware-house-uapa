@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +64,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,6 +90,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
+                Toast.makeText(LoginActivity.this, "text", Toast.LENGTH_SHORT).show();
                 attemptLogin();
             }
         });
@@ -96,7 +100,9 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         findViewById(R.id.email_sign_in_button).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                ApiLlamada.getHttp("http://warehousedev.azurewebsites.net/api/Productos");
+                Toast.makeText(LoginActivity.this, "text1", Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(LoginActivity.this, MainActivity.class));
             }
         });
     }
