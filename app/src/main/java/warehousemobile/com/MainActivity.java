@@ -17,6 +17,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import warehousemobile.com.modelos.Productos;
+import warehousemobile.com.modelos.Usuarios;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -112,8 +126,48 @@ public class MainActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
-            Log.d("myTag", scanResult.getContents());
-            showMessage(scanResult.getContents());
+            RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
+            String url ="http://warehousedev.azurewebsites.net/api/Productos/" + scanResult.getContents();
+            System.out.println(url);
+            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            System.out.println(response);
+                            try {
+                                JSONArray jsonArray = new JSONArray(response);
+                                JSONObject object = jsonArray.getJSONObject(0);
+//                                Productos productos = new Productos(
+//                                        Integer.parseInt(object.getString("id")),
+//                                        Integer.parseInt(object.getString("cantidad")),
+//                                        Integer.parseInt(object.getString("precio")),
+//                                        object.getString("codigo"),
+//                                        object.getString("descripcion"),
+//                                        object.getString("localizacion")
+//                                );
+//                                Productos productos1 = new Productos();
+//                                productos1.setId(Integer.parseInt(object.getString("id")));
+//                                productos1.setCantidad(Integer.parseInt(object.getString("cantidad")));
+//                                productos1.setCodigo(object.getString("codigo"));
+//                                productos1.setDescripcion(object.getString("descripcion"));
+//                                productos1.setLocalizacion(object.getString("localizacion"));
+//                                productos1.setPrecio(Integer.parseInt(object.getString("precio")));
+                                Intent i = new Intent(MainActivity.this, ProductoPorCodigo.class);
+                                i.putExtra("Producto", response);
+                                startActivity(i);
+                                //startActivity(new Intent(MainActivity.this, ProductoPorCodigo.class));
+                            } catch (JSONException e) {
+                                Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                                e.printStackTrace();
+                            }
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    showMessage("Hubo un error, intente de nuevo");
+                }
+            });
+            queue.add(stringRequest);
         }else {
             showMessage(scanResult.getErrorCorrectionLevel());
         }
