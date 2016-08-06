@@ -26,10 +26,19 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ProductoPorCodigo"
             android:label="@string/title_activity_producto_por_codigo"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="warehousemobile.com.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ProductoNuevo"
+            android:label="@string/title_activity_producto_nuevo"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

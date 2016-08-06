@@ -85,6 +85,7 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nuevo_item) {
             showMessage("nuevo item");
+            startActivity(new Intent(MainActivity.this, ProductoNuevo.class));
         } else if (id == R.id.localizaciones) {
             showMessage("localizaciones");
         } else if (id == R.id.inventario) {

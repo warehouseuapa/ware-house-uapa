@@ -33,8 +33,6 @@ public class ProductoPorCodigo extends AppCompatActivity {
             String value = extras.getString("Producto");
             JSONArray jsonArray = null;
             try {
-                //jsonArray = new JSONArray(value);
-                //JSONObject object = jsonArray.getJSONObject(0);
                 JSONObject object = new JSONObject(value);
                 codigo.setText(object.getString("codigo"));
                 descripcion.setText(object.getString("descripcion"));
@@ -45,23 +43,6 @@ public class ProductoPorCodigo extends AppCompatActivity {
                 e.printStackTrace();
             }
         }
-
-//        Productos productos = new Productos();
-//
-//        codigo.setText(productos.getCodigo());
-//        descripcion.setText(productos.getDescripcion());
-//        cantidad.setText(String.valueOf(productos.getCantidad()));
-//        precio.setText(String.valueOf(productos.getPrecio()));
-//        localizacion.setText(productos.getLocalizacion());
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
