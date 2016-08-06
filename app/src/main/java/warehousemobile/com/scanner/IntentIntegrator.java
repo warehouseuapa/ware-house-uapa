@@ -1,4 +1,4 @@
-package warehousemobile.com;
+package warehousemobile.com.scanner;
 
 /**
  * Created by Samuel on 03/08/2016.

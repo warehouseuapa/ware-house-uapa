@@ -1,4 +1,4 @@
-package warehousemobile.com;
+package warehousemobile.com.scanner;
 /*
  * Copyright 2009 ZXing authors
  *
@@ -14,6 +14,8 @@ package warehousemobile.com;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+import warehousemobile.com.scanner.IntentIntegrator;
 
 /**
  * <p>Encapsulates the result of a barcode scan invoked through {@link IntentIntegrator}.</p>
