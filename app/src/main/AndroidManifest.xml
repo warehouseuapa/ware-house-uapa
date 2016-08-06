@@ -27,8 +27,6 @@
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".Main2Activity"></activity>
-        <activity android:name=".Main22Activity"></activity>
         <activity
             android:name=".ProductoPorCodigo"
             android:label="@string/title_activity_producto_por_codigo"
