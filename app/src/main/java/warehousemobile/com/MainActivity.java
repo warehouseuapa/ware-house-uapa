@@ -4,8 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.text.LoginFilter;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -16,7 +14,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -24,12 +21,6 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import warehousemobile.com.modelos.Productos;
-import warehousemobile.com.modelos.Usuarios;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,8 +36,7 @@ public class MainActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "No tienes mensajes en tu Bandeja", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+               llamarScanner();
             }
         });
 
@@ -62,12 +52,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
-        }
     }
 
     @Override
@@ -106,8 +90,7 @@ public class MainActivity extends AppCompatActivity
             showMessage("inventario");
         } else if (id == R.id.scanAdd) {
             showMessage("scanadd");
-            IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
-            integrator.initiateScan();
+            llamarScanner();
         } else if (id == R.id.buscar) {
             showMessage("buscar");
         } else if (id == R.id.salir) {
@@ -119,6 +102,11 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public void llamarScanner() {
+        IntentIntegrator integrator = new IntentIntegrator(MainActivity.this);
+        integrator.initiateScan();
+    }
+
     public void showMessage(String text) {
         Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
     }
@@ -127,7 +115,7 @@ public class MainActivity extends AppCompatActivity
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
             RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-            String url ="http://warehousedev.azurewebsites.net/api/Productos/" + scanResult.getContents();
+            String url ="http://warehousedev.azurewebsites.net/api/Productos?codigo=" + scanResult.getContents();
             System.out.println(url);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
@@ -135,28 +123,10 @@ public class MainActivity extends AppCompatActivity
                         public void onResponse(String response) {
                             System.out.println(response);
                             try {
-                                JSONArray jsonArray = new JSONArray(response);
-                                JSONObject object = jsonArray.getJSONObject(0);
-//                                Productos productos = new Productos(
-//                                        Integer.parseInt(object.getString("id")),
-//                                        Integer.parseInt(object.getString("cantidad")),
-//                                        Integer.parseInt(object.getString("precio")),
-//                                        object.getString("codigo"),
-//                                        object.getString("descripcion"),
-//                                        object.getString("localizacion")
-//                                );
-//                                Productos productos1 = new Productos();
-//                                productos1.setId(Integer.parseInt(object.getString("id")));
-//                                productos1.setCantidad(Integer.parseInt(object.getString("cantidad")));
-//                                productos1.setCodigo(object.getString("codigo"));
-//                                productos1.setDescripcion(object.getString("descripcion"));
-//                                productos1.setLocalizacion(object.getString("localizacion"));
-//                                productos1.setPrecio(Integer.parseInt(object.getString("precio")));
                                 Intent i = new Intent(MainActivity.this, ProductoPorCodigo.class);
                                 i.putExtra("Producto", response);
                                 startActivity(i);
-                                //startActivity(new Intent(MainActivity.this, ProductoPorCodigo.class));
-                            } catch (JSONException e) {
+                            } catch (Exception e) {
                                 Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
                                 e.printStackTrace();
                             }

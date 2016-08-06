@@ -33,8 +33,9 @@ public class ProductoPorCodigo extends AppCompatActivity {
             String value = extras.getString("Producto");
             JSONArray jsonArray = null;
             try {
-                jsonArray = new JSONArray(value);
-                JSONObject object = jsonArray.getJSONObject(0);
+                //jsonArray = new JSONArray(value);
+                //JSONObject object = jsonArray.getJSONObject(0);
+                JSONObject object = new JSONObject(value);
                 codigo.setText(object.getString("codigo"));
                 descripcion.setText(object.getString("descripcion"));
                 cantidad.setText(object.getString("cantidad"));

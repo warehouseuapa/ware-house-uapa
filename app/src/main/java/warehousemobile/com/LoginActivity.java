@@ -166,70 +166,53 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
-        View focusView = null;
 
-        // Check for a valid password, if the user entered one.
-        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-            mPasswordView.setError(getString(R.string.error_invalid_password));
-            focusView = mPasswordView;
+        if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
+            mostrarMensaje("Email no es valido");
+            mEmailView.setError(getString(R.string.error_invalid_email));
             cancel = true;
         }
-
-        // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
-            cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        if (TextUtils.isEmpty(password)) {
+            mostrarMensaje("Contraseña no es valida");
+            mPasswordView.setError(getString(R.string.error_field_required));
             cancel = true;
         }
 
         if (cancel) {
-            // There was an error; don't attempt login and focus the first
-            // form field with an error.
-            focusView.requestFocus();
         } else {
-            // Show a progress spinner, and kick off a background task to
-            // perform the user login attempt.
             showProgress(true);
-
             RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);
-            String url ="http://warehousedev.azurewebsites.net/api/Usuarios/";
+            String url ="http://warehousedev.azurewebsites.net/api/Usuarios?email=" + email + "&contrasena=" + password;
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            System.out.println(response);
-                            try {
-                                JSONArray jsonArray = new JSONArray(response);
-                                JSONObject object = jsonArray.getJSONObject(0);
-                                Usuarios usuarios = new Usuarios(
-                                    Integer.parseInt(object.getString("id")),
-                                    object.getString("usuario"),
-                                    object.getString("nombre"),
-                                    object.getString("email"),
-                                    object.getString("contrasena")
-                                );
-                                mostrarMensaje("Bienvenido " + usuarios.getNombre());
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                            } catch (JSONException e) {
-                                Toast.makeText(LoginActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            }
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        System.out.println( "Repuesta" + response);
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            Usuarios usuarios = new Usuarios(
+                                Integer.parseInt(object.getString("id")),
+                                object.getString("usuario"),
+                                object.getString("nombre"),
+                                object.getString("email"),
+                                object.getString("contrasena")
+                            );
+                            mostrarMensaje("Bienvenido " + usuarios.getNombre());
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                        } catch (JSONException e) {
+                            System.out.println("Error:" + e.toString());
+                            e.printStackTrace();
                         }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    mostrarMensaje("Hubo un error, intente de nuevo");
-                    showProgress(false);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mostrarMensaje("Hubo un error, intente de nuevo");
+                System.out.println(error.getMessage() + "::::::::" + error.toString() + ":::::::" + error.networkResponse.toString());
+                showProgress(false);
                 }
             });
             queue.add(stringRequest);
-
-            //mAuthTask = new UserLoginTask(email, password);
-            //mAuthTask.execute((Void) null);
         }
     }
 
@@ -238,13 +221,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
 
     private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
-    }
-
-    private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        return email.contains("@") && email.contains(".");
     }
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
