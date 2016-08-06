@@ -6,6 +6,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -74,17 +75,35 @@ public class ProductoNuevo extends AppCompatActivity {
         btnGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeRequest(codigo.getText().toString(), descripcion.getText().toString(),
-                        precio.getText().toString(), cantidad.getText().toString(),
-                        localizacion.getText().toString());
+                String textCodigo = codigo.getText().toString();
+                String textDescripcion = descripcion.getText().toString();
+                String textPrecio = precio.getText().toString();
+                String textCantidad = cantidad.getText().toString();
+                String textLocallizacion = localizacion.getText().toString();
+                if(validarEditText(textCodigo, textDescripcion, textPrecio, textCantidad, textLocallizacion)) {
+                    makeRequest(textCodigo, textDescripcion, textPrecio, textCantidad, textLocallizacion);
+                } else {
+                    Toast.makeText(ProductoNuevo.this, "Debe llenar todos los campos", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-
-
-
     }
 
-    public void makeRequest(final String mCodigo, final String mDescripcion, final String mPrecio, final String mCantidad, final String mLocalizacion) {
+    private boolean validarEditText(String textCodigo, String textDescripcion, String textPrecio,
+                                    String textCantidad, String textLocallizacion) {
+        boolean esValido = true;
+
+        if(TextUtils.isEmpty(textCodigo) || TextUtils.isEmpty(textDescripcion) ||
+                TextUtils.isEmpty(textPrecio) || TextUtils.isEmpty(textCantidad) ||
+                TextUtils.isEmpty(textLocallizacion)){
+            esValido = false;
+        }
+
+        return esValido;
+    }
+
+    public void makeRequest(final String mCodigo, final String mDescripcion, final String mPrecio,
+                            final String mCantidad, final String mLocalizacion) {
         RequestQueue queue = Volley.newRequestQueue(ProductoNuevo.this);
         String url = "http://warehousedev.azurewebsites.net/api/Productos";
         StringRequest postRequest = new StringRequest(Request.Method.POST, url,
