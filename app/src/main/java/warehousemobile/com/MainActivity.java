@@ -23,7 +23,6 @@ import com.android.volley.toolbox.Volley;
 import warehousemobile.com.scanner.IntentIntegrator;
 import warehousemobile.com.scanner.IntentResult;
 
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -90,6 +89,7 @@ public class MainActivity extends AppCompatActivity
             showMessage("localizaciones");
         } else if (id == R.id.inventario) {
             showMessage("inventario");
+            startActivity(new Intent(MainActivity.this, ProductoLista.class));
         } else if (id == R.id.scanAdd) {
             showMessage("scanadd");
             llamarScanner();
@@ -118,25 +118,23 @@ public class MainActivity extends AppCompatActivity
         if (scanResult != null) {
             RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
             String url ="http://warehousedev.azurewebsites.net/api/Productos?codigo=" + scanResult.getContents();
-            System.out.println(url);
             StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            System.out.println(response);
-                            try {
-                                Intent i = new Intent(MainActivity.this, ProductoPorCodigo.class);
-                                i.putExtra("Producto", response);
-                                startActivity(i);
-                            } catch (Exception e) {
-                                Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-                                e.printStackTrace();
-                            }
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        try {
+                            Intent i = new Intent(MainActivity.this, ProductoPorCodigo.class);
+                            i.putExtra("Producto", response);
+                            startActivity(i);
+                        } catch (Exception e) {
+                            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
+                            e.printStackTrace();
                         }
-                    }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    showMessage("Hubo un error, intente de nuevo");
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                showMessage("Hubo un error, intente de nuevo");
                 }
             });
             queue.add(stringRequest);

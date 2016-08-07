@@ -21,9 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_producto_nuevo" />
-
-
     <ScrollView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
@@ -37,6 +34,7 @@
             android:paddingTop="56dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp">
+
             <!--  Name Label -->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"

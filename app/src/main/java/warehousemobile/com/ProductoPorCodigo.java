@@ -9,7 +9,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import warehousemobile.com.modelos.Productos;
 
 public class ProductoPorCodigo extends AppCompatActivity {
 
@@ -19,8 +18,6 @@ public class ProductoPorCodigo extends AppCompatActivity {
         setContentView(R.layout.activity_producto_por_codigo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        System.out.println("Entro al oncreate========================================================");
 
         TextView codigo = (TextView) findViewById(R.id.pCodigo);
         TextView descripcion = (TextView) findViewById(R.id.pDescripcion);
