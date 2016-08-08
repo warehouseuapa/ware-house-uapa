@@ -50,7 +50,8 @@ public class ProductoLista extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-
+                            ProductoAdapter productoAdapter = new ProductoAdapter(ProductoLista.this, jsonArray);
+                            listaProductos.setAdapter(productoAdapter);
                         } catch (Exception e) {
                             Toast.makeText(ProductoLista.this, e.toString(), Toast.LENGTH_LONG).show();
                             e.printStackTrace();
