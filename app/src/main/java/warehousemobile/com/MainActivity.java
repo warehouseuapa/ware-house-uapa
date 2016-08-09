@@ -1,6 +1,7 @@
 package warehousemobile.com;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
@@ -83,20 +84,23 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.nuevo_item) {
-            showMessage("nuevo item");
             startActivity(new Intent(MainActivity.this, ProductoNuevo.class));
         } else if (id == R.id.localizaciones) {
-            showMessage("localizaciones");
+            startActivity(new Intent(MainActivity.this, Localizaciones.class));
         } else if (id == R.id.inventario) {
-            showMessage("inventario");
-            startActivity(new Intent(MainActivity.this, ProductoLista.class));
+            startActivity(new Intent(MainActivity.this, ProductoLista1.class));
         } else if (id == R.id.scanAdd) {
             showMessage("scanadd");
             llamarScanner();
         } else if (id == R.id.buscar) {
             showMessage("buscar");
         } else if (id == R.id.salir) {
-            showMessage("salir");
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                finishAffinity();
+            } else {
+                finish();
+            }
+            System.exit(0);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

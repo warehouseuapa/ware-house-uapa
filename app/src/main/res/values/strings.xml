@@ -26,4 +26,6 @@
     <string name="title_activity_nuevo_producto">NuevoProducto</string>
     <string name="title_activity_producto_nuevo">ProductoNuevo</string>
     <string name="title_activity_producto_lista">ProductoLista</string>
+    <string name="title_activity_producto_lista1">ProductoLista1</string>
+    <string name="title_activity_localizaciones">Localizaciones</string>
 </resources>

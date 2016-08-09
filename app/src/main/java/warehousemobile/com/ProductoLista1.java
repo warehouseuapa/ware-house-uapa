@@ -1,19 +1,13 @@
 package warehousemobile.com;
 
-import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
 import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,24 +19,25 @@ import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 
-import java.util.ArrayList;
+public class ProductoLista1 extends AppCompatActivity {
 
-import warehousemobile.com.modelos.Productos;
-
-public class ProductoLista extends AppCompatActivity {
+    ProgressBar progressBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_producto_lista);
+        setContentView(R.layout.activity_producto_lista1);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        progressBar = (ProgressBar) findViewById(R.id.listaProgress);
+        progressBar.setVisibility(View.VISIBLE);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        final ListView listaProductos = (ListView) findViewById(R.id.list);
+        final ListView listaProductos = (ListView) findViewById(R.id.listViewProductos);
 
-        RequestQueue queue = Volley.newRequestQueue(ProductoLista.this);
+        RequestQueue queue = Volley.newRequestQueue(ProductoLista1.this);
         String url ="http://warehousedev.azurewebsites.net/api/Productos";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -50,10 +45,14 @@ public class ProductoLista extends AppCompatActivity {
                     public void onResponse(String response) {
                         try {
                             JSONArray jsonArray = new JSONArray(response);
-                            ProductoAdapter productoAdapter = new ProductoAdapter(ProductoLista.this, jsonArray);
-                            listaProductos.setAdapter(productoAdapter);
+                            ProductoAdapter productoAdapter = new ProductoAdapter(ProductoLista1.this, jsonArray);
+                            progressBar.setVisibility(View.INVISIBLE);
+                            listaProductos.setVisibility(View.VISIBLE);
+                            if (null != listaProductos) {
+                                listaProductos.setAdapter(productoAdapter);
+                            }
                         } catch (Exception e) {
-                            Toast.makeText(ProductoLista.this, e.toString(), Toast.LENGTH_LONG).show();
+                            Toast.makeText(ProductoLista1.this, e.toString(), Toast.LENGTH_LONG).show();
                             e.printStackTrace();
                         }
                     }
@@ -64,6 +63,7 @@ public class ProductoLista extends AppCompatActivity {
             }
         });
         queue.add(stringRequest);
+
     }
 
 }

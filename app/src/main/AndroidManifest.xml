@@ -46,8 +46,17 @@
                 android:value="warehousemobile.com.MainActivity" />
         </activity>
         <activity
-            android:name=".ProductoLista"
-            android:label="@string/title_activity_producto_lista"
+            android:name=".ProductoLista1"
+            android:label="@string/title_activity_producto_lista1"
+            android:parentActivityName=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="warehousemobile.com.MainActivity" />
+        </activity>
+        <activity
+            android:name=".Localizaciones"
+            android:label="@string/title_activity_localizaciones"
             android:parentActivityName=".MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

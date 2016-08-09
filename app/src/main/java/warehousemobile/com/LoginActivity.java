@@ -106,8 +106,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         findViewById(R.id.email_sign_in_button).setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                attemptLogin();
                 //startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                attemptLogin();
             }
         });
     }
@@ -187,7 +187,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println( "Repuesta" + response);
                         try {
                             JSONObject object = new JSONObject(response);
                             Usuarios usuarios = new Usuarios(
@@ -208,7 +207,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public void onErrorResponse(VolleyError error) {
                 mostrarMensaje("Hubo un error, intente de nuevo");
-                System.out.println(error.getMessage() + "::::::::" + error.toString() + ":::::::" + error.networkResponse.toString());
                 showProgress(false);
                 }
             });

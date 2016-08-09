@@ -46,11 +46,13 @@ public class ProductoAdapter extends BaseAdapter {
         }
         TextView tCodigo = (TextView) convertView.findViewById(R.id.plCodigo);
         TextView tDescripcion = (TextView) convertView.findViewById(R.id.plDescripcion);
+        TextView tCantidad = (TextView) convertView.findViewById(R.id.plCantidad);
         jsonObject = new JSONObject();
         try {
             jsonObject = jsonArray.getJSONObject(position);
             tCodigo.setText(jsonObject.getString("codigo"));
             tDescripcion.setText(jsonObject.getString("descripcion"));
+            tCantidad.setText(jsonObject.getString("cantidad"));
         } catch (JSONException e) {
             e.printStackTrace();
         }
