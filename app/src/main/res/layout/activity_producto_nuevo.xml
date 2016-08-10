@@ -21,7 +21,7 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView
+    <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
@@ -35,7 +35,6 @@
             android:paddingLeft="24dp"
             android:paddingRight="24dp">
 
-            <!--  Name Label -->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -48,7 +47,6 @@
                     android:hint="Codigo" />
             </android.support.design.widget.TextInputLayout>
 
-            <!-- Email Label -->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -61,7 +59,6 @@
                     android:hint="Descripcion" />
             </android.support.design.widget.TextInputLayout>
 
-            <!-- Password Label -->
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -86,7 +83,6 @@
                     android:hint="Cantidad"/>
             </android.support.design.widget.TextInputLayout>
 
-
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -110,7 +106,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,6 +15,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -33,6 +36,12 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        TextView textView =(TextView)findViewById(R.id.textView4);
+        textView.setClickable(true);
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        String text = "<a href='http://whsemobile.com'> http://whsemobile.com </a>";
+        textView.setText(Html.fromHtml(text));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -57,7 +66,6 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
@@ -79,6 +87,7 @@ public class MainActivity extends AppCompatActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
+
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -90,7 +99,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.inventario) {
             startActivity(new Intent(MainActivity.this, ProductoLista1.class));
         } else if (id == R.id.scanAdd) {
-            showMessage("scanadd");
             llamarScanner();
         } else if (id == R.id.buscar) {
             showMessage("buscar");
@@ -120,28 +128,10 @@ public class MainActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
-            RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
-            String url ="http://warehousedev.azurewebsites.net/api/Productos?codigo=" + scanResult.getContents();
-            StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        try {
-                            Intent i = new Intent(MainActivity.this, ProductoPorCodigo.class);
-                            i.putExtra("Producto", response);
-                            startActivity(i);
-                        } catch (Exception e) {
-                            Toast.makeText(MainActivity.this, e.toString(), Toast.LENGTH_LONG).show();
-                            e.printStackTrace();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                showMessage("Hubo un error, intente de nuevo");
-                }
-            });
-            queue.add(stringRequest);
+            showMessage(scanResult.getContents());
+            Intent i = new Intent(MainActivity.this, ProductoPorCodigo.class);
+            i.putExtra("Producto", scanResult.getContents());
+            startActivity(i);
         }else {
             showMessage(scanResult.getErrorCorrectionLevel());
         }

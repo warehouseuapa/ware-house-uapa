@@ -58,9 +58,7 @@
         android:layout_marginBottom="55dp"
         android:linksClickable="true"
         android:longClickable="true"
-        android:textColor="#0a22fa"
-        android:contextClickable="false"
-        android:clickable="false" />
+        android:textColor="#0a22fa" />
 
     <ImageView
         android:layout_width="wrap_content"

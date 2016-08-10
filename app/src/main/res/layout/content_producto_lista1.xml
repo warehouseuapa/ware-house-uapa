@@ -20,7 +20,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         style="@style/Animation.AppCompat.Dialog"
-        android:background="#584f4f" />
+        android:background="#81F7BE" />
 
     <ProgressBar
         android:id="@+id/listaProgress"
