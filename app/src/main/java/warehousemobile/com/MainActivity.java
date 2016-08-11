@@ -89,9 +89,7 @@ public class MainActivity extends AppCompatActivity
     @Override
 
     public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.nuevo_item) {
             startActivity(new Intent(MainActivity.this, ProductoNuevo.class));
         } else if (id == R.id.localizaciones) {
@@ -110,7 +108,6 @@ public class MainActivity extends AppCompatActivity
             }
             System.exit(0);
         }
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

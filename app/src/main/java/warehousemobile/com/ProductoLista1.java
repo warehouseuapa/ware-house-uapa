@@ -1,5 +1,6 @@
 package warehousemobile.com;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -30,6 +31,17 @@ public class ProductoLista1 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        Bundle extras = getIntent().getExtras();
+
+        if(extras != null){
+            final String value = extras.getString("Productos");
+        } else {
+            cargarTodosLosProductos();
+        }
+
+    }
+
+    public void cargarTodosLosProductos(){
         progressBar = (ProgressBar) findViewById(R.id.listaProgress);
         progressBar.setVisibility(View.VISIBLE);
 
@@ -48,9 +60,7 @@ public class ProductoLista1 extends AppCompatActivity {
                             ProductoAdapter productoAdapter = new ProductoAdapter(ProductoLista1.this, jsonArray);
                             progressBar.setVisibility(View.INVISIBLE);
                             listaProductos.setVisibility(View.VISIBLE);
-                            if (null != listaProductos) {
-                                listaProductos.setAdapter(productoAdapter);
-                            }
+                            listaProductos.setAdapter(productoAdapter);
                         } catch (Exception e) {
                             Toast.makeText(ProductoLista1.this, e.toString(), Toast.LENGTH_LONG).show();
                             e.printStackTrace();
@@ -60,10 +70,9 @@ public class ProductoLista1 extends AppCompatActivity {
             @Override
             public void onErrorResponse(VolleyError error) {
                 System.out.println("Hubo un error, intente de nuevo");
+                startActivity(new Intent(ProductoLista1.this, MainActivity.class));
             }
         });
         queue.add(stringRequest);
-
     }
-
 }
