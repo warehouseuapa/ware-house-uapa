@@ -28,4 +28,5 @@
     <string name="title_activity_producto_lista">ProductoLista</string>
     <string name="title_activity_producto_lista1">ProductoLista1</string>
     <string name="title_activity_localizaciones">Localizaciones</string>
+    <string name="title_activity_localizaciones1">Localizaciones1</string>
 </resources>
