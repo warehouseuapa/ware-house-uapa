@@ -20,6 +20,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -40,6 +44,8 @@ public class ProductoNuevo extends AppCompatActivity {
         setContentView(R.layout.activity_producto_nuevo);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        setTitle("Nuevo producto");
 
         final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -66,8 +72,39 @@ public class ProductoNuevo extends AppCompatActivity {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus){
                     fab.setVisibility(View.VISIBLE);
+                    descripcion.setEnabled(true);
+                    precio.setEnabled(true);
                 } else {
                     fab.setVisibility(View.INVISIBLE);
+                    final String value = codigo.getText().toString();
+                    RequestQueue queue = Volley.newRequestQueue(ProductoNuevo.this);
+                    String url ="http://warehousedev.azurewebsites.net/api/Productos?codigo=" + value;
+                    StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
+                                    try {
+                                        JSONObject object = new JSONObject(response);
+                                        if (object != null) {
+                                            descripcion.setText(object.getString("descripcion"));
+                                            precio.setText(object.getString("precio"));
+                                            descripcion.setEnabled(false);
+                                            precio.setEnabled(false);
+                                            cantidad.requestFocus();
+                                        } else {
+
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            System.out.println("Errorrrrr: " + error.toString());
+                        }
+                    });
+                    queue.add(stringRequest);
                 }
             }
         });
@@ -111,13 +148,22 @@ public class ProductoNuevo extends AppCompatActivity {
                 {
                     @Override
                     public void onResponse(String response) {
-                        Toast.makeText(ProductoNuevo.this, "Guardado con exito", Toast.LENGTH_LONG).show();
-                        Log.d("Response", response);
-                        codigo.setText("");
-                        descripcion.setText("");
-                        precio.setText("");
-                        cantidad.setText("");
-                        localizacion.setText("");
+                        try {
+                            JSONObject object = new JSONObject(response);
+                            if(object.has("errorCode")){
+                                Toast.makeText(ProductoNuevo.this, object.getString("message"), Toast.LENGTH_LONG).show();
+                            } else {
+                                Toast.makeText(ProductoNuevo.this, "Guardado con exito", Toast.LENGTH_LONG).show();
+                                Log.d("Response", response);
+                                codigo.setText("");
+                                descripcion.setText("");
+                                precio.setText("");
+                                cantidad.setText("");
+                                localizacion.setText("");
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 },
                 new Response.ErrorListener()

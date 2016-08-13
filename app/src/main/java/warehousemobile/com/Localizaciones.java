@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -23,6 +24,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,43 +39,44 @@ public class Localizaciones extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle("Localizaciones");
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         progressBar = (ProgressBar) findViewById(R.id.loadingLocalizaciones);
         final RelativeLayout mainLayout=(RelativeLayout)this.findViewById(R.id.layoutLocalizaciones);
 
-
-        final EditText etItem = (EditText) findViewById(R.id.editTextCodigo);
         final EditText etLocalizacion = (EditText) findViewById(R.id.editTextLocalizacion);
+        final ListView listaProductos = (ListView) findViewById(R.id.listViewLocalizacion);
         Button buscar = (Button) findViewById(R.id.button);
 
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String item = etItem.getText().toString();
             String localizacion = etLocalizacion.getText().toString();
 
-            if(TextUtils.isEmpty(item) || TextUtils.isEmpty(localizacion)){
+            if(TextUtils.isEmpty(localizacion)){
                 Toast.makeText(Localizaciones.this, "Debe llenar los dos campos", Toast.LENGTH_SHORT).show();
             } else {
                 progressBar.setVisibility(View.VISIBLE);
                 mainLayout.setVisibility(View.GONE);
                 RequestQueue queue = Volley.newRequestQueue(Localizaciones.this);
-                String url ="http://warehousedev.azurewebsites.net/api/getProductByItemAndLocation?item=" +
-                        item + "&location=" + localizacion;
+                String url ="http://warehousedev.azurewebsites.net/api/getProductByLocation?location=" + localizacion;
                 StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
                             try {
-                                JSONObject object = new JSONObject(response);
-                                if (object.has("errorCode")) {
-                                    Toast.makeText(Localizaciones.this, object.getString("mensaje"), Toast.LENGTH_SHORT).show();
+                                JSONArray jsonArray = new JSONArray(response);
+                                if (jsonArray.length() < 1) {
+                                    Toast.makeText(Localizaciones.this, "No se encontraron Productos en esa localizacion", Toast.LENGTH_SHORT).show();
                                     progressBar.setVisibility(View.GONE);
                                     mainLayout.setVisibility(View.VISIBLE);
                                 } else {
-                                    Intent i = new Intent(Localizaciones.this, ProductoPorCodigo.class);
-                                    i.putExtra("Producto", object.getString("codigo"));
-                                    startActivity(i);
+                                    ProductoAdapter productoAdapter = new ProductoAdapter(Localizaciones.this, jsonArray);
+                                    listaProductos.setAdapter(productoAdapter);
+                                    listaProductos.setVisibility(View.VISIBLE);
+                                    progressBar.setVisibility(View.GONE);
+                                    mainLayout.setVisibility(View.GONE);
                                 }
                             } catch (JSONException e) {
                                 Toast.makeText(Localizaciones.this, "Error interno", Toast.LENGTH_SHORT);

@@ -31,6 +31,8 @@ public class ProductoLista1 extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        setTitle("Lista de productos");
+
         Bundle extras = getIntent().getExtras();
 
         if(extras != null){
@@ -76,3 +78,4 @@ public class ProductoLista1 extends AppCompatActivity {
         queue.add(stringRequest);
     }
 }
+

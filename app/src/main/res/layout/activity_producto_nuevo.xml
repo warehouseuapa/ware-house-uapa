@@ -116,4 +116,14 @@
         android:layout_margin="@dimen/fab_margin"
         android:src="@android:drawable/ic_menu_search" />
 
+    <ProgressBar
+        android:id="@+id/loadingN"
+        style="?android:attr/progressBarStyleLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
+        android:indeterminate="true"
+        android:visibility="invisible" />
+
 </android.support.design.widget.CoordinatorLayout>

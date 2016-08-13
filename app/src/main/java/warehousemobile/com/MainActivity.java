@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         TextView textView =(TextView)findViewById(R.id.textView4);
         textView.setClickable(true);
         textView.setMovementMethod(LinkMovementMethod.getInstance());
-        String text = "<a href='http://whsemobile.com'> http://whsemobile.com </a>";
+        String text = "<a href='http://mr-anyelo.wix.com/warehousemobile'> http://wm.whsemobile.com </a>";
         textView.setText(Html.fromHtml(text));
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
