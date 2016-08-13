@@ -155,17 +155,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         boolean cancel = false;
 
         if (TextUtils.isEmpty(email) || !isEmailValid(email)) {
-            mostrarMensaje("Email no es valido");
             mEmailView.setError(getString(R.string.error_invalid_email));
             cancel = true;
         }
         if (TextUtils.isEmpty(password)) {
-            mostrarMensaje("Contraseña no es valida");
             mPasswordView.setError(getString(R.string.error_field_required));
             cancel = true;
         }
 
         if (cancel) {
+            mostrarMensaje("Llene los campos correctamente");
         } else {
             showProgress(true);
             RequestQueue queue = Volley.newRequestQueue(LoginActivity.this);

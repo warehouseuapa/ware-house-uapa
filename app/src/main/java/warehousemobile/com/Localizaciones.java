@@ -52,7 +52,7 @@ public class Localizaciones extends AppCompatActivity {
         buscar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            String localizacion = etLocalizacion.getText().toString();
+            final String localizacion = etLocalizacion.getText().toString();
 
             if(TextUtils.isEmpty(localizacion)){
                 Toast.makeText(Localizaciones.this, "Debe llenar los dos campos", Toast.LENGTH_SHORT).show();
@@ -77,6 +77,7 @@ public class Localizaciones extends AppCompatActivity {
                                     listaProductos.setVisibility(View.VISIBLE);
                                     progressBar.setVisibility(View.GONE);
                                     mainLayout.setVisibility(View.GONE);
+                                    setTitle("Localizacion: " + localizacion);
                                 }
                             } catch (JSONException e) {
                                 Toast.makeText(Localizaciones.this, "Error interno", Toast.LENGTH_SHORT);

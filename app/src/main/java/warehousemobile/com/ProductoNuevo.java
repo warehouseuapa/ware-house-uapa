@@ -65,6 +65,11 @@ public class ProductoNuevo extends AppCompatActivity {
         cantidad = (EditText) findViewById(R.id.nCantidad);
         localizacion = (EditText) findViewById(R.id.nLocalizacion);
 
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            codigo.setText(extras.getString("codigo"));
+        }
+
         Button btnGuardar = (Button) findViewById(R.id.btn_guardar_nuevo);
 
         codigo.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -124,6 +129,11 @@ public class ProductoNuevo extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(ProductoNuevo.this, MainActivity.class));
     }
 
     private boolean validarEditText(String textCodigo, String textDescripcion, String textPrecio,

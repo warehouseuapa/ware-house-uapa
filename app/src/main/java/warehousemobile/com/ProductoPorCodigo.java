@@ -104,8 +104,10 @@ public class ProductoPorCodigo extends AppCompatActivity {
                                         mainLayout.setVisibility(View.VISIBLE);
                                         progressBar.setVisibility(View.GONE);
                                     } else if (jsonArray.length() == 0) {
-                                        Toast.makeText(ProductoPorCodigo.this, "No se encontraron Resultados", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(ProductoPorCodigo.this, MainActivity.class));
+                                        Toast.makeText(ProductoPorCodigo.this, "Producto no existe, agregar nuevo.", Toast.LENGTH_SHORT).show();
+                                        Intent i = new Intent(ProductoPorCodigo.this, ProductoNuevo.class);
+                                        i.putExtra("codigo", value);
+                                        startActivity(i);
                                     } else {
                                         ProductoAdapterPorCodigo productoAdapterPorCodigo = new
                                                 ProductoAdapterPorCodigo(ProductoPorCodigo.this, jsonArray);

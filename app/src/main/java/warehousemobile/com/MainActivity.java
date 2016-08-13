@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         IntentResult scanResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
         if (scanResult != null) {
-            showMessage(scanResult.getContents());
             Intent i = new Intent(MainActivity.this, ProductoPorCodigo.class);
             i.putExtra("Producto", scanResult.getContents());
             startActivity(i);
