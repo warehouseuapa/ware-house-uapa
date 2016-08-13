@@ -52,7 +52,7 @@ public class ProductoLista1 extends AppCompatActivity {
         final ListView listaProductos = (ListView) findViewById(R.id.listViewProductos);
 
         RequestQueue queue = Volley.newRequestQueue(ProductoLista1.this);
-        String url ="http://warehousedev.azurewebsites.net/api/Productos";
+        String url ="http://warehousedev.azurewebsites.net/api/getAllProducts";
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
